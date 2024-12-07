@@ -3,11 +3,9 @@ package main
 import (
 	"fmt"
 	"log"
-	"os"
 	"runtime"
 	"time"
 
-	"github.com/joho/godotenv"
 	tele "gopkg.in/telebot.v3"
 )
 
@@ -25,17 +23,12 @@ var userSessions = make(map[int64]*UserSession)
 func main() {
 	fmt.Printf("OS: %s\nArchitecture: %s\n", runtime.GOOS, runtime.GOARCH)
 
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal(envError)
-	}
-
-	token := os.Getenv("TELEGRAM_BOT_TOKEN")
 
 	var b *tele.Bot
+	var err error
 	for {
 		b, err = tele.NewBot(tele.Settings{
-			Token:  token,
+			Token:  "7737379645:AAFQdN1NW5MvBTnKOYT6zQZmliu6BzwhO5A",
 			Poller: &tele.LongPoller{Timeout: 10 * time.Second},
 		})
 
