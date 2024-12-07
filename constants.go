@@ -3,6 +3,18 @@ package main
 
 var (
 	// buttons
+	sina_website = "وب سایت سیناپردازش"
+	hesabdari_app = "نرم‌افزار حسابداری و مالی"
+	automation_app = "نرم‌افزار اتوماسیون اداری"
+	hesabdari_sherkati_app = "نرم‌افزار حسابداری شرکتی"
+	//
+	chap_factor_app = "نرم‌افزار صدور و چاپ فاکتور"
+	anbardari_app = "نرم‌افزار انبارداری"
+	chap_check_app = "نرم‌افزار چک چاپ"
+	khazane_app = "نرم‌افزار خزانه داری"
+	modian_maliat_app = "نرم افزار مودیان مالیاتی"
+	sina_matab_app = "نرم‌افــزار مطب سینا"
+	//
 	zar_app = "نرم‌افزار طلا و جواهر (زرغزال)"
 	sina_app = "نرم‌افزار حسابداری سینا"
 	company_address_label = "آدرس شرکت سینا پردازش"
@@ -10,6 +22,18 @@ var (
 	q_and_a = "سوالات متداول"
 	apps_demo = "دموی نرم‌افزارها"
 	// response
+	sina_website_link = "https://www.sinapardazesh.ir"
+	hesabdari_link ="https://www.sinapardazesh.ir/نرم-افزار-حسابداری-سینا/"
+	automation_link = "https://www.sinapardazesh.ir/نرم-افزار-اتوماسیون-اداری/"
+	hesabdari_sherkati_link = "https://www.sinapardazesh.ir/نرم-افزار-حسابداری-شرکتی/"
+	//
+	chap_factor_link = "https://www.sinapardazesh.ir/نرم-افزار-صدور-فاکتور/"
+	anbardari_link = "https://www.sinapardazesh.ir/نرم-افزار-انبارداری/"
+	chap_check_link = "https://www.sinapardazesh.ir/چک-چاپ/"
+	khazane_link = "https://www.sinapardazesh.ir/نرم-افزار-خزانه-داری/"
+	modian_maliat_link = "https://www.sinapardazesh.ir/نرم-افزار-سامانه-مودیان/"
+	sina_matab_link = "https://www.sinapardazesh.ir/نرم-افزار-مطب/"
+	//
 	zar_link = "https://www.sinapardazesh.ir/نرم-افزار-طلا-و-جواهر/"
 	sina_link = "https://www.sinapardazesh.ir/نرم-افزار-حسابداری-سینا/"
 	company_address_res = "نشانی : تهران، سهروردی شمالی، خیابان باغ پلاک ۲۶"
@@ -25,6 +49,7 @@ var (
 	start_cmd = "شروع مجدد"
 	about_cmd = "درباره ربات"
 	cmd_set_err = "Failed to set bot commands: %v"
+	desc_err = "failed to set bot desc"
 
 	// github
 	about_bot = "ربات تلگرامی با زبان Golang\n امیدوارم استفاده از این بات تجربه خوبی برای شما رقم زده باشد\n سازندگان:\n"
