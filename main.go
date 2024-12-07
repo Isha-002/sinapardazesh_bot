@@ -16,6 +16,12 @@ type BotCommand struct {
 	Description string `json:"description"`
 }
 
+type UserSession struct {
+	PageState int 
+}
+
+var userSessions = make(map[int64]*UserSession)
+
 func main() {
 	fmt.Printf("OS: %s\nArchitecture: %s\n", runtime.GOOS, runtime.GOARCH)
 
@@ -26,13 +32,22 @@ func main() {
 
 	token := os.Getenv("TELEGRAM_BOT_TOKEN")
 
-	b, err := tele.NewBot(tele.Settings{
-		Token:  token,
-		Poller: &tele.LongPoller{Timeout: 10 * time.Second},
-	})
-	if err != nil {
-		fmt.Println(err)
-		return
+	var b *tele.Bot
+	for {
+		b, err = tele.NewBot(tele.Settings{
+			Token:  token,
+			Poller: &tele.LongPoller{Timeout: 10 * time.Second},
+		})
+
+		if err != nil {
+			fmt.Println(err_connection, err)
+			fmt.Println(retry)
+			time.Sleep(3 * time.Second)
+			continue
+		}
+
+		fmt.Println(success)
+		break
 	}
 
 	err = b.SetMyDescription(bot_description, "fa")
@@ -40,14 +55,11 @@ func main() {
 		log.Println(desc_err, err)
 	}
 
-	userPages := make(map[int64]int)
-
 	commands := []BotCommand{
 		{Command: "start", Description: start_cmd},
 		{Command: "about", Description: about_cmd},
 	}
 
-	
 	var page_three = &tele.ReplyMarkup{}
 	page_three.Inline(
 		page_three.Row(zar_app_btn),
@@ -103,28 +115,34 @@ func main() {
 	})
 
 	b.Handle("/start", func(c tele.Context) error {
+		chatID := c.Sender().ID
+
+		if _, exists := userSessions[chatID]; !exists {
+			userSessions[chatID] = &UserSession{PageState: 1} // Default to page 1
+		}
+
 		return c.Send(bot_intro, page_one)
 	})
 
 	b.Handle(&next_page, func(c tele.Context) error {
 		chatID := c.Sender().ID
 
-		
-		if _, exists := userPages[chatID]; !exists {
-			userPages[chatID] = 1
+		session, exists := userSessions[chatID]
+		if !exists {
+			session = &UserSession{PageState: 1}
+			userSessions[chatID] = session
 		}
 
-		
-		switch userPages[chatID] {
+		switch session.PageState {
 		case 1:
-			userPages[chatID] = 2
+			session.PageState = 2
 			return c.Edit(bot_intro, page_two)
 		case 2:
-			userPages[chatID] = 3
+			session.PageState = 3
 			return c.Edit(bot_intro, page_three)
 		default:
 			return c.Respond(&tele.CallbackResponse{
-				Text: "You are already on the last page.",
+				Text: last_page_err,
 			})
 		}
 	})
@@ -132,22 +150,22 @@ func main() {
 	b.Handle(&prev_page, func(c tele.Context) error {
 		chatID := c.Sender().ID
 
-		
-		if _, exists := userPages[chatID]; !exists {
-			userPages[chatID] = 1
+		session, exists := userSessions[chatID]
+		if !exists {
+			session = &UserSession{PageState: 1} 
+			userSessions[chatID] = session
 		}
 
-		
-		switch userPages[chatID] {
+		switch session.PageState {
 		case 3:
-			userPages[chatID] = 2
+			session.PageState = 2
 			return c.Edit(bot_intro, page_two)
 		case 2:
-			userPages[chatID] = 1
+			session.PageState = 1
 			return c.Edit(bot_intro, page_one)
 		default:
 			return c.Respond(&tele.CallbackResponse{
-				Text: "You are already on the first page.",
+				Text: next_page_err,
 			})
 		}
 	})
@@ -156,10 +174,10 @@ func main() {
 		return c.Edit(bot_intro, page_one)
 	})
 
-	// Handle other buttons
 	b.Handle(&contact_btn, func(c tele.Context) error {
 		return c.Edit(contact_support_res, back_to_main)
 	})
+
 	b.Handle(&address_btn, func(c tele.Context) error {
 		return c.Edit(company_address_res, back_to_main)
 	})

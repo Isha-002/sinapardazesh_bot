@@ -50,6 +50,11 @@ var (
 	about_cmd = "درباره ربات"
 	cmd_set_err = "Failed to set bot commands: %v"
 	desc_err = "failed to set bot desc"
+	err_connection = "Error connecting to the bot:"
+	retry = "Retrying in 3 seconds..."
+	success = "Bot connected successfully!"
+	last_page_err = "You are already on the last page."
+	next_page_err = "You are already on the first page."
 
 	// github
 	about_bot = "ربات تلگرامی با زبان Golang\n امیدوارم استفاده از این بات تجربه خوبی برای شما رقم زده باشد\n سازندگان:\n"
