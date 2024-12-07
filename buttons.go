@@ -13,4 +13,11 @@ var (
 	contact_btn = tele.Btn{Unique: "contact_app", Text: contact_support_label}
 
 	backBtn = tele.Btn{Unique: "back_btn", Text: "↩️ بازگشت"}
+
+	// about
+	about_btn = []tele.Btn{
+		{Unique: "isha", Text: "isha", URL: "https://github.com/isha"}, 
+		{Unique: "saeid", Text: "saeid", URL: "https://github.com/saeid"}, 
+	}
+	
 )

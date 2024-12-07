@@ -11,6 +11,11 @@ import (
 	tele "gopkg.in/telebot.v3"
 )
 
+type BotCommand struct {
+	Command     string `json:"command"`
+	Description string `json:"description"`
+}
+
 func main() {
 	fmt.Printf("OS: %s\nArchitecture: %s\n", runtime.GOOS, runtime.GOARCH)
 
@@ -21,7 +26,6 @@ func main() {
 
 	token := os.Getenv("TELEGRAM_BOT_TOKEN")
 
-	// Create bot instance
 	b, err := tele.NewBot(tele.Settings{
 		Token:  token,
 		Poller: &tele.LongPoller{Timeout: 10 * time.Second},
@@ -31,8 +35,7 @@ func main() {
 		return
 	}
 
-
-	err = b.SetMyDescription(bot_description, "fa") 
+	err = b.SetMyDescription(bot_description, "fa")
 	if err != nil {
 		log.Println("Error setting description:", err)
 	}
@@ -40,16 +43,43 @@ func main() {
 	var menu = &tele.ReplyMarkup{}
 	var back_to_main = &tele.ReplyMarkup{}
 
-		menu.Inline(
-			menu.Row(zar_app_btn),
-			menu.Row(sina_app_btn),
-			menu.Row(app_demo_btn, q_and_a_btn),
-			menu.Row(contact_btn, address_btn),
-		)
+	commands := []BotCommand{
+		{Command: "start", Description: start_cmd},
+		{Command: "about", Description: about_cmd},
+	}
 
-		back_to_main.Inline(
-			back_to_main.Row(backBtn),
-		)
+	menu.Inline(
+		menu.Row(zar_app_btn),
+		menu.Row(sina_app_btn),
+		menu.Row(app_demo_btn, q_and_a_btn),
+		menu.Row(contact_btn, address_btn),
+	)
+
+	back_to_main.Inline(
+		back_to_main.Row(backBtn),
+	)
+
+	teleCommands := make([]tele.Command, len(commands))
+	for i, cmd := range commands {
+		teleCommands[i] = tele.Command{
+			Text:        cmd.Command,
+			Description: cmd.Description,
+		}
+	}
+
+	if err := b.SetCommands(teleCommands); err != nil {
+		log.Fatalf(cmd_set_err, err)
+	}
+
+	var about_menu = &tele.ReplyMarkup{}
+	about_menu.Inline(
+		about_menu.Row(about_btn...),
+		about_menu.Row(backBtn),
+	)
+
+	b.Handle("/about", func(c tele.Context) error {
+		return c.Send(about_bot, about_menu)
+	})
 
 	b.Handle("/start", func(c tele.Context) error {
 		return c.Send(bot_intro, menu)

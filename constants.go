@@ -22,4 +22,14 @@ var (
 	envError = "An error occured while loading env variable!"
 	bot_description = "ربات شرکت سیناپردازش"
 	bot_intro = "سلام، به ربات سینا پردازش خوش آمدید\nلطفا برای دسترسی آسان به امکانات و خدمات ما گزینه مورد نظر خود را انتخاب کنید\n"
+	start_cmd = "شروع مجدد"
+	about_cmd = "درباره ربات"
+	cmd_set_err = "Failed to set bot commands: %v"
+
+	// github
+	about_bot = "ربات تلگرامی با زبان Golang\n امیدوارم استفاده از این بات تجربه خوبی برای شما رقم زده باشد\n سازندگان:\n"
+	isha = "Isha"
+	isha_git = "https://github.com/Isha-002"
+	saeid = "Saeid"
+	saeid_git = "https://github.com/mrte6h"
 )
