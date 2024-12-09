@@ -164,6 +164,9 @@ func main() {
 	})
 
 	b.Handle(&backBtn, func(c tele.Context) error {
+		chatID := c.Sender().ID
+		session := userSessions[chatID]
+		session.PageState = 1
 		return c.Edit(bot_intro, page_one)
 	})
 
