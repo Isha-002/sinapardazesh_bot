@@ -60,6 +60,4 @@ var (
 	about_bot = "ربات تلگرامی با زبان Golang\n امیدوارم استفاده از این بات تجربه خوبی برای شما رقم زده باشد\n سازندگان:\n"
 	isha = "Isha"
 	isha_git = "https://github.com/Isha-002"
-	saeid = "Saeid"
-	saeid_git = "https://github.com/mrte6h"
 )

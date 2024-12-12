@@ -31,6 +31,5 @@ var (
 	// about
 	about_btn = []tele.Btn{
 		{Unique: "isha", Text: isha, URL: isha_git},
-		{Unique: "saeid", Text: saeid, URL: saeid_git},
 	}
 )
